@@ -13,21 +13,26 @@ import org.testng.annotations.Test;
 public class AllAnnotations {
 	
 	@BeforeSuite
-	public void beforeSuit() {
-		System.out.println("This is before suit test method");
+	public void beforeSuite() {
+		System.out.println(" ---- This is before suite annotation ----");
 	}
+
 	
 	@BeforeTest
-		public void beforeTest() {
-		System.out.println("This is before test method");
+	public void beforeTest() {
+		System.out.println(" ---- This is before test annotation ----");
 	}
+
 	
-	
+	@BeforeClass
+	public void beforeClass1() {
+		System.out.println(" ---- This is before class annotation ----");
+	}
 	
 	@BeforeMethod
 	public void beforeMethod() {
 		
-		System.out.println("This is beforemethod test method");
+		System.out.println("This is before method");
 	}
 
 
@@ -51,14 +56,10 @@ public class AllAnnotations {
 	
 	@AfterMethod
 	public void after() {
-		System.out.println("This is after test method");
+		System.out.println("This is after method");
 	}
 	
 	
-	@BeforeClass
-	public void beforeClass() {
-		System.out.println("------This is before class annotation----");
-	}
 	
 	
 	@AfterClass
@@ -70,12 +71,12 @@ public class AllAnnotations {
 	
 	@AfterTest
 	public void afterTest() {
-		System.out.println("-----This is after class annotation------");
+		System.out.println("-----This is after test annotation--------");
 		
 	}
 	@AfterSuite
 	public void afterSuit() {
-		System.out.println("-----This is after suit annotation------");
+		System.out.println("-----This is after suit annotation---------");
 	}
 	
 

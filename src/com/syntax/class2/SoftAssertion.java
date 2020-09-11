@@ -12,7 +12,7 @@ import org.testng.asserts.SoftAssert;
 public class SoftAssertion {
 public static WebDriver driver;
 	
-	@BeforeMethod
+	@BeforeMethod(alwaysRun=true)
 	public void openBrowser() {
 		System.setProperty("webdriver.chrome.driver", System.getProperty("user.dir")+"/drivers/chromedriver");
 		driver = new ChromeDriver();
@@ -21,7 +21,7 @@ public static WebDriver driver;
 
 	}
 	
-	@AfterMethod
+	@AfterMethod(alwaysRun=true)
 	public void closeBrowser() {
 		driver.quit();
 	}
@@ -34,21 +34,20 @@ public static WebDriver driver;
 		driver.findElement(By.id("txtUsername")).sendKeys("Admin");;
 		driver.findElement(By.id("txtPassword")).sendKeys("Humm");
 		driver.findElement(By.cssSelector("input#btnLogin")).click();
+		
+		SoftAssert softAssertion = new SoftAssert();
 		String expectedErrordMsg = "Invalid credential";//dogrusu Invalid credentials// bilerek yanlis yaziyoruz
 		
 		WebElement errorMsg =driver.findElement(By.id("spanMessage"));
 		//first validation
-		SoftAssert softAssertion = new SoftAssert();
+		
 		softAssertion.assertEquals(errorMsg.getText(),expectedErrordMsg);
 		
-		
-		
-		
-		
-
+		Thread.sleep(2000);
 		driver.findElement(By.id("txtUsername")).sendKeys("Admin");;
 		driver.findElement(By.id("txtPassword")).sendKeys("");
 		driver.findElement(By.cssSelector("input#btnLogin")).click();
+		
 		String errorMsg2 = "Password cannot be";//real is Password cannot be empty
 		errorMsg = driver.findElement(By.id("spanMessage"));
 		
@@ -61,17 +60,6 @@ public static WebDriver driver;
 		
 		softAssertion.assertAll();
 		
-//		
-//		WebElement msg = driver.findElement(By.xpath("//span[@id='spanMessage']"));
-//		
-//		String expectedMsg = "Password cannot be empty";
-//		String actualMsg =msg.getText();
-//		if(actualMsg.equals(expectedMsg)) {
-//			System.out.println("-Password cannot be empty- is displayed. TEST PASS");
-//		}else {
-//			System.out.println("-Password cannot be empty- is NOT displayed. TEST FAIL");
-//		}
-//		
 				
 		
 	}

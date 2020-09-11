@@ -1,3 +1,4 @@
+
 package com.syntax.class2;
 
 import org.openqa.selenium.By;
@@ -12,7 +13,7 @@ public class Dependancy {
 	
 public static WebDriver driver;
 	
-	@BeforeMethod
+	@BeforeMethod(alwaysRun = true)
 	public void openBrowser() {
 		System.setProperty("webdriver.chrome.driver", System.getProperty("user.dir")+"/drivers/chromedriver");
 		driver = new ChromeDriver();
@@ -23,7 +24,7 @@ public static WebDriver driver;
 	}
 	
 	
-	@Test
+	@Test(groups="smoke")
 	public void validLogin() {
 		driver.findElement(By.id("txtUsername")).sendKeys("Admin");;
 		driver.findElement(By.id("txtPassword")).sendKeys("Hum@nhrm123");
@@ -40,7 +41,9 @@ public static WebDriver driver;
 	}
 	
 	
-	@Test(dependsOnMethods = "validLogin")
+	@Test(groups="regression",dependsOnMethods = "validLogin")//if validLogin pass ONLY then execute invalidLogin
+	//otherwise if validLogin fails then DO NOT EXECUTE invalidLogin (invalid Login test will be skipped)
+	
 	public void invalidLogin() {
 		
 		
@@ -74,7 +77,7 @@ public static WebDriver driver;
 		
 	}
 	
-	@AfterMethod
+	@AfterMethod(alwaysRun = true)
 	public void closeBrowser() {
 		driver.quit();
 	}

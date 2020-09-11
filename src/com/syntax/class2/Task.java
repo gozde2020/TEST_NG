@@ -28,25 +28,11 @@ public static WebDriver driver;
 
 
 	@BeforeMethod
-	public void openBrowser() throws InterruptedException {
+	public void openBrowser()  {
 		System.setProperty("webdriver.chrome.driver", System.getProperty("user.dir")+"/drivers/chromedriver");
 		driver = new ChromeDriver();
 		driver.get("http://166.62.36.207/humanresources/symfony/web/index.php/auth/login");
 		driver.manage().window().maximize();
-		
-		driver.findElement(By.id("txtUsername")).sendKeys("Admin");;
-		driver.findElement(By.id("txtPassword")).sendKeys("Hum@nhrm123");
-		driver.findElement(By.cssSelector("input#btnLogin")).click();
-		Thread.sleep(2000);
-		driver.findElement(By.linkText("PIM"));
-		driver.findElement(By.id("menu_pim_addEmployee"));
-		
-		WebElement empname = driver.findElement(By.id("firstName"));
-		empname.sendKeys("hello");
-		WebElement emplastname = driver.findElement(By.id("lastName"));
-		emplastname.sendKeys("humans");
-		WebElement save = driver.findElement(By.id("btnSave"));
-		save.click();
 	
 	}
 	
@@ -56,51 +42,69 @@ public static WebDriver driver;
 	}
 	
 	@Test
-	public void verifyLabels() {
+	public void verifyLabels() throws InterruptedException {
+		
+		//login +clicik PIM+ click add employee
+		driver.findElement(By.id("txtUsername")).sendKeys("Admin");;
+		driver.findElement(By.id("txtPassword")).sendKeys("Hum@nhrm123");
+		
+		Thread.sleep(2000);
+		driver.findElement(By.cssSelector("input#btnLogin")).click();
+		Thread.sleep(2000);
+		driver.findElement(By.linkText("PIM")).click();
+		
+		Thread.sleep(2000);
+		driver.findElement(By.id("menu_pim_addEmployee")).click();
+		
+		Thread.sleep(2000);
 		
 		
-		String expectedTitle1 = "Full Name"; 
-		WebElement firstname=driver.findElement(By.xpath("//label[@class='hasTopFieldHelp']"));
 		
+		
+		WebElement firstname=driver.findElement(By.xpath("(//div[@class = 'fieldDescription'])[1]"));
 		SoftAssert softAssertion = new SoftAssert();
-		softAssertion.assertEquals(firstname.getText(),expectedTitle1);
+		softAssertion.assertTrue(firstname.isDisplayed());
 	
 
-		String expectedTitle2 = "Employee Id"; 
-		WebElement empId=driver.findElement(By.xpath("//label[@for='employeeId']"));
+		
+		WebElement empId=driver.findElement(By.xpath("//label[text() = 'Employee Id']"));
+		softAssertion.assertTrue(empId.isDisplayed());
 		
 		
-		softAssertion.assertEquals(empId.getText(),expectedTitle2);
+		WebElement photo=driver.findElement(By.xpath("//label[text() = 'Photograph']"));
+		softAssertion.assertTrue(photo.isDisplayed());
+	
 		
-		
-		String expectedTitle3 = "Photograph"; 
-		WebElement photo=driver.findElement(By.xpath("//label[@for='photofile']"));
-		
-		
-		softAssertion.assertEquals(photo.getText(),expectedTitle3);
-		
+		Thread.sleep(2000);
 		
 
-		String expectedEmpName = "hello humans";
+		WebElement empname = driver.findElement(By.id("firstName"));
+		empname.sendKeys("aaaa");
+		
+		WebElement emplastname = driver.findElement(By.id("lastName"));
+		emplastname.sendKeys("bcbc");
+		
+		
+		WebElement chooseFile = driver.findElement(By.id(("photofile")));
+		chooseFile.sendKeys("/Users/gozde.ercevik/Desktop/pictureTest.png");
+		Thread.sleep(2000);
+		
+		
+		WebElement save = driver.findElement(By.id("btnSave"));
+		save.click();
+		
+		String expectedEmpName = "aaaa bcbc";
 		WebElement name=driver.findElement(By.xpath("//div[@id = 'profile-pic']/h1"));
 		softAssertion.assertEquals(name.getText(),expectedEmpName);
+		
+		
+		
 	}
 	
 	
 }	
 	
-//	@Test
-//	public void uploadPhoto() {
-//		WebElement fileUpload = driver.findElement(By.xpath("//input[@class = 'duplexBox']"));
-//		fileUpload.click(); 
-//		
-//		WebElement chooseFile = driver.findElement(By.id(("file-upload")));
-//		chooseFile.sendKeys("/Users/gozde.ercevik/Desktop/TestSeleniumUpload.xlsx");
-//		
-//		WebElement upload = driver.findElement(By.id("file-submit"));
-//		upload.click();
-//	}
-//	
+
 	
 	
 	
